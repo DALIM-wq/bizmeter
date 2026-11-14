@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#081426">
+<meta name="description" content="BIZMETER - Manage your business, sales, expenses and profits.">
+<title>BIZMETER — Grow Your Business</title>
+
+<style>
+:root {
+  --bg:#081426;
+  --panel:#101f35;
+  --panel2:#172943;
+  --green:#16e69a;
+  --blue:#2775ff;
+  --red:#ff5269;
+  --yellow:#ffc947;
+  --text:#f4f7fc;
+  --muted:#91a2ba;
+  --border:#263b58;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+button,input,select {font:inherit}
+button {cursor:pointer}
+.app {max-width:1100px;margin:auto;padding:18px}
+header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.brand {display:flex;align-items:center;gap:12px}
+.logo {
+  width:55px;height:55px;
+  background:#102b37;
+  border:1px solid #1b765c;
+  border-radius:16px;
+  display:grid;place-items:center;
+}
+.logo svg {width:43px;height:43px}
+.brand h1 {margin:0;font-size:25px;letter-spacing:1px}
+.brand h1 span {color:var(--green)}
+.tagline {color:var(--muted);font-size:12px;margin-top:5px}
+.header-actions {display:flex;gap:8px;align-items:center}
+select,.small-btn {
+  background:var(--panel2);
+  color:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px;
+}
+nav {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:5px 0 15px;
+  margin-bottom:12px;
+}
+nav button {
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--muted);
+  padding:12px 15px;
+  border-radius:11px;
+  white-space:nowrap;
+}
+nav button.active {
+  color:#061b14;
+  background:var(--green);
+  border-color:var(--green);
+  font-weight:bold;
+}
+.page-title {font-size:23px;margin:10px 0 5px}
+.subtitle {color:var(--muted);font-size:13px;margin-bottom:18px}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+  margin-bottom:18px;
+}
+.card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:17px;
+  margin-bottom:14px;
+  min-width:0;
+}
+.stat-label {color:var(--muted);font-size:13px}
+.stat-value {font-size:clamp(19px,3vw,27px);font-weight:bold;margin-top:12px;overflow-wrap:anywhere}
+.green {color:var(--green)}
+.red {color:var(--red)}
+.yellow {color:var(--yellow)}
+.blue {color:#70a5ff}
+.grid2 {display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.section-title {font-size:17px;margin:0 0 14px}
+.actions {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.action {
+  background:var(--panel2);
+  border:1px solid var(--border);
+  color:white;
+  border-radius:13px;
+  padding:16px 8px;
+  text-align:center;
+  min-height:85px;
+}
+.action span {display:block;font-size:24px;margin-bottom:8px}
+.action small {font-size:12px}
+.action:hover {border-color:var(--green)}
+.form-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+input,select.field {
+  width:100%;
+  background:#09172a;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:13px;
+  outline:none;
+}
+input:focus,select.field:focus {border-color:var(--green)}
+label {display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}
+.primary,.danger,.secondary {
+  border:0;border-radius:10px;padding:13px 16px;
+  font-weight:bold;
+}
+.primary {background:var(--green);color:#062018}
+.secondary {background:var(--panel2);color:white;border:1px solid var(--border)}
+.danger {background:#4a1d2b;color:#ffb1bd}
+.full {width:100%;margin-top:13px}
+.table-wrap {overflow-x:auto}
+table {width:100%;border-collapse:collapse;min-width:450px}
+th,td {
+  padding:12px 9px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-size:13px;
+}
+th {color:var(--muted);font-weight:normal}
+.empty {color:var(--muted);padding:18px 0;text-align:center}
+.pill {
+  padding:5px 8px;border-radius:20px;
+  background:#163c32;color:var(--green);font-size:11px;
+}
+.pill.expense {background:#451f2a;color:#ff8797}
+.bar-row {margin:14px 0}
+.bar-info {display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px}
+.bar-bg {height:9px;background:#26364c;border-radius:20px;overflow:hidden}
+.bar-fill {height:100%;background:var(--green);border-radius:20px}
+footer {text-align:center;color:#71829a;font-size:11px;padding:25px}
+.hidden {display:none!important}
+.notice {font-size:12px;color:var(--muted);line-height:1.6}
+@media(max-width:650px) {
+  .app {padding:13px}
+  .stats {grid-template-columns:1fr 1fr}
+  .stats .card:last-child {grid-column:span 2}
+  .grid2 {grid-template-columns:1fr}
+  .actions {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brand h1 {font-size:22px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div class="brand">
+    <div class="logo">
+      <svg viewBox="0 0 100 100" fill="none" aria-label="BIZMETER logo">
+        <path d="M12 78V55H29V78H12Z" fill="#16e69a"/>
+        <path d="M37 78V39H54V78H37Z" fill="#16e69a"/>
+        <path d="M62 78V20H79V78H62Z" fill="#16e69a"/>
+        <path d="M12 43L38 30L55 34L86 8" stroke="#16e69a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M67 8H87V28" stroke="#16e69a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 88H91" stroke="white" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <h1>BIZ<span>METER</span></h1>
+      <div class="tagline">GROW YOUR BUSINESS</div>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <select id="language" aria-label="Language">
+      <option value="fr">🇫🇷 Français</option>
+      <option value="en">🇬🇧 English</option>
+    </select>
+    <select id="currency" aria-label="Currency">
+      <option value="XOF">FCFA</option>
+      <option value="EUR">EUR €</option>
+      <option value="USD">USD $</option>
+      <option value="GBP">GBP £</option>
+      <option value="NGN">NGN ₦</option>
+    </select>
+  </div>
+</header>
+
+<nav id="navigation">
+  <button class="active" data-page="home">⌂ Accueil</button>
+  <button data-page="operations">↕ Opérations</button>
+  <button data-page="products">▣ Produits</button>
+  <button data-page="customers">♙ Clients</button>
+  <button data-page="reports">▥ Rapports</button>
+  <button data-page="settings">⚙ Paramètres</button>
+</nav>
+
+<main id="content"></main>
+
+<footer>
+  BIZMETER © 2026 — Grow Your Business
+  <br>Version 1.0 • Données enregistrées sur cet appareil
+</footer>
+</div>
+
+<script>
+"use strict";
+
+/* ==================================
+   BIZMETER - APPLICATION PRINCIPALE
+================================== */
+
+const translations = {
+  fr: {
+    home:"Accueil", operations:"Opérations", products:"Produits",
+    customers:"Clients", reports:"Rapports", settings:"Paramètres",
+    welcome:"Bienvenue sur BIZMETER",
+    subtitle:"Voici le résumé de ton activité.",
+    revenue:"Chiffre d'affaires", expenses:"Dépenses",
+    profit:"Bénéfice estimé", quick:"Actions rapides",
+    sale:"Nouvelle vente", expense:"Nouvelle dépense",
+    product:"Ajouter un produit", customer:"Ajouter un client",
+    recent:"Activité récente", all:"Toutes les opérations",
+    amount:"Montant", description:"Description",
+    date:"Date", type:"Type", save:"Enregistrer",
+    cancel:"Annuler", name:"Nom", price:"Prix",
+    quantity:"Quantité", stock:"Stock", debt:"Dette",
+    phone:"Téléphone", add:"Ajouter", noData:"Aucune donnée disponible.",
+    sales:"Ventes", totalExpenses:"Total des dépenses",
+    estimatedProfit:"Bénéfice estimé", inventory:"Inventaire",
+    clientList:"Liste des clients", productList:"Liste des produits",
+    transactionList:"Historique des opérations",
+    saleType:"Vente", expenseType:"Dépense",
+    settingsTitle:"Préférences de l'application",
+    language:"Langue", currency:"Devise",
+    reset:"Réinitialiser toutes les données",
+    resetInfo:"Attention : cette action supprimera toutes tes données enregistrées sur cet appareil.",
+    confirmReset:"Veux-tu vraiment supprimer toutes tes données ?",
+    required:"Remplis correctement les champs.",
+    lowStock:"Stock faible", noProducts:"Aucun produit enregistré.",
+    noCustomers:"Aucun client enregistré.",
+    paid:"Payé", unpaid:"À payer", balance:"Solde",
+    monthly:"Résumé financier", salesCount:"Nombre de ventes",
+    expenseCount:"Nombre de dépenses", delete:"Supprimer",
+    deleteConfirm:"Supprimer cet élément ?",
+    opening:"Commence par enregistrer une vente ou une dépense.",
+    stockValue:"Valeur du stock",
+    customerDebt:"Dettes clients",
+    dataInfo:"Tes données sont conservées dans le stockage local de ton navigateur. Elles ne sont pas encore synchronisées avec Internet."
+  },
+  en: {
+    home:"Home", operations:"Transactions", products:"Products",
+    customers:"Customers", reports:"Reports", settings:"Settings",
+    welcome:"Welcome to BIZMETER",
+    subtitle:"Here is your business overview.",
+    revenue:"Revenue", expenses:"Expenses",
+    profit:"Estimated profit", quick:"Quick actions",
+    sale:"New sale", expense:"New expense",
+    product:"Add product", customer:"Add customer",
+    recent:"Recent activity", all:"All transactions",
+    amount:"Amount", description:"Description",
+    date:"Date", type:"Type", save:"Save",
+    cancel:"Cancel", name:"Name", price:"Price",
+    quantity:"Quantity", stock:"Stock", debt:"Debt",
+    phone:"Phone", add:"Add", noData:"No data available.",
+    sales:"Sales", totalExpenses:"Total expenses",
+    estimatedProfit:"Estimated profit", inventory:"Inventory",
+    clientList:"Customer list", productList:"Product list",
+    transactionList:"Transaction history",
+    saleType:"Sale", expenseType:"Expense",
+    settingsTitle:"Application preferences",
+    language:"Language", currency:"Currency",
+    reset:"Reset all data",
+    resetInfo:"Warning: this action will delete all data saved on this device.",
+    confirmReset:"Are you sure you want to delete all your data?",
+    required:"Please fill in the fields correctly.",
+    lowStock:"Low stock", noProducts:"No products saved.",
+    noCustomers:"No customers saved.",
+    paid:"Paid", unpaid:"Unpaid", balance:"Balance",
+    monthly:"Financial summary", salesCount:"Number of sales",
+    expenseCount:"Number of expenses", delete:"Delete",
+    deleteConfirm:"Delete this item?",
+    opening:"Start by recording a sale or an expense.",
+    stockValue:"Stock value",
+    customerDebt:"Customer debts",
+    dataInfo:"Your data is stored locally in your browser. It is not yet synchronized online."
+  }
+};
+
+let language = localStorage.getItem("biz_language") || "fr";
+let currency = localStorage.getItem("biz_currency") || "XOF";
+
+let db = {
+  transactions: [],
+  products: [],
+  customers: []
+};
+
+try {
+  const stored = JSON.parse(localStorage.getItem("bizmeter_data") || "null");
+  if (stored && typeof stored === "object") {
+    db.transactions = Array.isArray(stored.transactions) ? stored.transactions : [];
+    db.products = Array.isArray(stored.products) ? stored.products : [];
+    db.customers = Array.isArray(stored.customers) ? stored.customers : [];
+  }
+} catch(e) {
+  console.error("Erreur de lecture des données", e);
+}
+
+const t = key => translations[language][key] || key;
+
+function saveDB() {
+  localStorage.setItem("bizmeter_data", JSON.stringify(db));
+}
+
+function formatMoney(value) {
+  try {
+    return new Intl.NumberFormat(language === "fr" ? "fr-FR" : "en-US", {
+      style:"currency",
+      currency:currency,
+      maximumFractionDigits:0
+    }).format(Number(value) || 0);
+  } catch(e) {
+    return (Number(value) || 0).toLocaleString() + " " + currency;
+  }
+}
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#039;"
+  }[char]));
+}
+
+function totals() {
+  const sales = db.transactions
+    .filter(x => x.type === "sale")
+    .reduce((sum,x) => sum + Number(x.amount),0);
+
+  const expenses = db.transactions
+    .filter(x => x.type === "expense")
+    .reduce((sum,x) => sum + Number(x.amount),0);
+
+  return {sales,expenses,profit:sales-expenses};
+}
+
+function currentPage() {
+  return document.querySelector("#navigation button.active")?.dataset.page || "home";
+}
+
+function go(page) {
+  document.querySelectorAll("#navigation button").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === page);
+  });
+  render(page);
+}
+
+document.getElementById("navigation").addEventListener("click", event => {
+  const button = event.target.closest("button[data-page]");
+  if (button) go(button.dataset.page);
+});
+
+document.getElementById("language").value = language;
+document.getElementById("currency").value = currency;
+
+document.getElementById("language").addEventListener("change", event => {
+  language = event.target.value;
+  localStorage.setItem("biz_language",language);
+  updateNavigation();
+  render(currentPage());
+});
+
+document.getElementById("currency").addEventListener("change", event => {
+  currency = event.target.value;
+  localStorage.setItem("biz_currency",currency);
+  render(currentPage());
+});
+
+function updateNavigation() {
+  document.querySelectorAll("#navigation button").forEach(button => {
+    button.textContent = {
+      home:"⌂ " + t("home"),
+      operations:"↕ " + t("operations"),
+      products:"▣ " + t("products"),
+      customers:"♙ " + t("customers"),
+      reports:"▥ " + t("reports"),
+      settings:"⚙ " + t("settings")
+    }[button.dataset.page];
+  });
+}
+
+function stat(label,value,color) {
+  return `<div class="card">
+    <div class="stat-label">${safe(label)}</div>
+    <div class="stat-value ${color}">${formatMoney(value)}</div>
+  </div>`;
+}
+
+function transactionRows(list) {
+  if (!list.length) return `<tr><td colspan="4" class="empty">${t("noData")}</td></tr>`;
+
+  return [...list].reverse().map(item => `
+    <tr>
+      <td>${safe(item.description)}</td>
+      <td><span class="pill ${item.type === "expense" ? "expense" : ""}">
+        ${item.type === "sale" ? t("saleType") : t("expenseType")}
+      </span></td>
+      <td>${safe(item.date)}</td>
+      <td class="${item.type === "sale" ? "green" : "red"}">
+        ${item.type === "sale" ? "+" : "-"}${formatMoney(item.amount)}
+      </td>
+    </tr>
+  `).join("");
+}
+
+function renderHome() {
+  const total = totals();
+  const recent = [...db.transactions].slice(-5).reverse();
+
+  return `
+    <h2 class="page-title">${t("welcome")}</h2>
+    <p class="subtitle">${t("subtitle")}</p>
+
+    <div class="stats">
+      ${stat(t("revenue"),total.sales,"green")}
+      ${stat(t("expenses"),total.expenses,"red")}
+      ${stat(t("profit"),total.profit,total.profit >= 0 ? "yellow" : "red")}
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">${t("quick")}</h3>
+      <div class="actions">
+        <button class="action" data-go="operations"><span>💰</span><small>${t("sale")}</small></button>
+        <button class="action" data-go="operations"><span>💸</span><small>${t("expense")}</small></button>
+        <button class="action" data-go="products"><span>📦</span><small>${t("product")}</small></button>
+        <button class="action" data-go="customers"><span>👥</span><small>${t("customer")}</small></button>
+        <button class="action" data-go="reports"><span>📊</span><small>${t("reports")}</small></button>
+        <button class="action" data-go="settings"><span>⚙️</span><small>${t("settings")}</small></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">${t("recent")}</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>${t("description")}</th><th>${t("type")}</th>
+            <th>${t("date")}</th><th>${t("amount")}</th>
+          </tr></thead>
+          <tbody>${transactionRows(recent)}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderOperations() {
+  return `
+    <h2 class="page-title">${t("operations")}</h2>
+    <p class="subtitle">${t("all")}</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3 class="section-title">💰 ${t("sale")}</h3>
+        <form id="transactionForm" data-type="sale">
+          <label>${t("description")}</label>
+          <input name="description" required maxlength="80" placeholder="${t("description")}">
+          <label>${t("amount")}</label>
+          <input name="amount" type="number" min="1" step="1" required placeholder="0">
+          <button class="primary full" type="submit">${t("save")}</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">💸 ${t("expense")}</h3>
+        <form id="transactionForm" data-type="expense">
+          <label>${t("description")}</label>
+          <input name="description" required maxlength="80" placeholder="${t("description")}">
+          <label>${t("amount")}</label>
+          <input name="amount" type="number" min="1" step="1" required placeholder="0">
+          <button class="primary full" type="submit">${t("save")}</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">${t("transactionList")}</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>${t("description")}</th><th>${t("type")}</th>
+            <th>${t("date")}</th><th>${t("amount")}</th>
+          </tr></thead>
+          <tbody>${transactionRows(db.transactions)}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderProducts() {
+  const rows = db.products.length ? db.products.map((p,index) => `
+    <tr>
+      <td>${safe(p.name)}</td>
+      <td>${formatMoney(p.price)}</td>
+      <td>${safe(p.quantity)}</td>
+      <td>${Number(p.quantity) <= 3 ? `<span class="pill expense">${t("lowStock")}</span>` : `<span class="pill">OK</span>`}</td>
+      <td><button class="danger" data-delete-product="${index}">×</button></td>
+    </tr>
+  `).join("") : `<tr><td colspan="5" class="empty">${t("noProducts")}</td></tr>`;
+
+  return `
+    <h2 class="page-title">${t("products")}</h2>
+    <p class="subtitle">${t("inventory")}</p>
+
+    <div class="card">
+      <h3 class="section-title">${t("product")}</h3>
+      <form id="productForm">
+        <label>${t("name")}</label>
+        <input name="name" required maxlength="80">
+        <div class="form-grid">
+          <div><label>${t("price")}</label><input name="price" type="number" min="0" required></div>
+          <div><label>${t("quantity")}</label><input name="quantity" type="number" min="0" required></div>
+        </div>
+        <button class="primary full" type="submit">${t("add")}</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">${t("productList")}</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>${t("name")}</th><th>${t("price")}</th>
+            <th>${t("stock")}</th><th>État</th><th></th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderCustomers() {
+  const rows = db.customers.length ? db.customers.map((c,index) => `
+    <tr>
+      <td>${safe(c.name)}</td>
+      <td>${safe(c.phone || "—")}</td>
+      <td>${formatMoney(c.debt)}</td>
+      <td><button class="danger" data-delete-customer="${index}">×</button></td>
+    </tr>
+  `).join("") : `<tr><td colspan="4" class="empty">${t("noCustomers")}</td></tr>`;
+
+  return `
+    <h2 class="page-title">${t("customers")}</h2>
+    <p class="subtitle">${t("clientList")}</p>
+
+    <div class="card">
+      <h3 class="section-title">${t("customer")}</h3>
+      <form id="customerForm">
+        <label>${t("name")}</label>
+        <input name="name" required maxlength="80">
+        <label>${t("phone")}</label>
+        <input name="phone" maxlength="30">
+        <label>${t("debt")}</label>
+        <input name="debt" type="number" min="0" value="0">
+        <button class="primary full" type="submit">${t("add")}</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">${t("clientList")}</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>${t("name")}</th><th>${t("phone")}</th>
+            <th>${t("debt")}</th><th></th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderReports() {
+  const total = totals();
+  const countSales = db.transactions.filter(x => x.type === "sale").length;
+  const countExpenses = db.transactions.filter(x => x.type === "expense").length;
+  const stockValue = db.products.reduce((sum,p) => sum + p.price * p.quantity,0);
+  const debts = db.customers.reduce((sum,c) => sum + c.debt,0);
+  const max = Math.max(total.sales,total.expenses,1);
+
+  return `
+    <h2 class="page-title">${t("reports")}</h2>
+    <p class="subtitle">${t("monthly")}</p>
+
+    <div class="stats">
+      ${stat(t("revenue"),total.sales,"green")}
+      ${stat(t("expenses"),total.expenses,"red")}
+      ${stat(t("profit"),total.profit,"yellow")}
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">${t("monthly")}</h3>
+      <div class="bar-row">
+        <div class="bar-info"><span>${t("sales")}</span><strong>${formatMoney(total.sales)}</strong></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:${total.sales/max*100}%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-info"><span>${t("expenses")}</span><strong>${formatMoney(total.expenses)}</strong></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:${total.expenses/max*100}%;background:#ff5269"></div></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card"><div class="stat-label">${t("salesCount")}</div><div class="stat-value green">${countSales}</div></div>
+      <div class="card"><div class="stat-label">${t("expenseCount")}</div><div class="stat-value red">${countExpenses}</div></div>
+      <div class="card"><div class="stat-label">${t("stockValue")}</div><div class="stat-value blue">${formatMoney(stockValue)}</div></div>
+      <div class="card"><div class="stat-label">${t("customerDebt")}</div><div class="stat-value yellow">${formatMoney(debts)}</div></div>
+    </div>
+  `;
+}
+
+function renderSettings() {
+  return `
+    <h2 class="page-title">${t("settingsTitle")}</h2>
+
+    <div class="card">
+      <label>${t("language")}</label>
+      <select class="field" id="settingsLanguage">
+        <option value="fr" ${language === "fr" ? "selected" : ""}>Français</option>
+        <option value="en" ${language === "en" ? "selected" : ""}>English</option>
+      </select>
+
+      <label>${t("currency")}</label>
+      <select class="field" id="settingsCurrency">
+        <option value="XOF" ${currency === "XOF" ? "selected" : ""}>FCFA</option>
+        <option value="EUR" ${currency === "EUR" ? "selected" : ""}>EUR €</option>
+        <option value="USD" ${currency === "USD" ? "selected" : ""}>USD $</option>
+        <option value="GBP" ${currency === "GBP" ? "selected" : ""}>GBP £</option>
+        <option value="NGN" ${currency === "NGN" ? "selected" : ""}>NGN ₦</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">💾 Sauvegarde</h3>
+      <p class="notice">${t("dataInfo")}</p>
+      <button class="secondary full" id="exportData">Exporter mes données</button>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">⚠️ ${t("reset")}</h3>
+      <p class="notice">${t("resetInfo")}</p>
+      <button class="danger full" id="resetData">${t("reset")}</button>
+    </div>
+  `;
+}
+
+function render(page) {
+  const content = document.getElementById("content");
+
+  const pages = {
+    home:renderHome,
+    operations:renderOperations,
+    products:renderProducts,
+    customers:renderCustomers,
+    reports:renderReports,
+    settings:renderSettings
+  };
+
+  content.innerHTML = (pages[page] || renderHome)();
+
+  content.querySelectorAll("[data-go]").forEach(button => {
+    button.addEventListener("click", () => go(button.dataset.go));
+  });
+
+  const transactionForms = content.querySelectorAll("#transactionForm");
+  transactionForms.forEach(form => {
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const amount = Number(data.get("amount"));
+      const description = String(data.get("description") || "").trim();
+
+      if (!description || !Number.isFinite(amount) || amount <= 0) {
+        alert(t("required"));
+        return;
+      }
+
+      db.transactions.push({
+        id:Date.now() + Math.random(),
+        type:form.dataset.type,
+        description,
+        amount,
+        date:new Date().toLocaleDateString()
+      });
+
+      saveDB();
+      render("operations");
+    });
+  });
+
+  const productForm = content.querySelector("#productForm");
+  if (productForm) productForm.addEventListener("submit",event => {
+    event.preventDefault();
+    const data = new FormData(productForm);
+    const name = String(data.get("name") || "").trim();
+    const price = Number(data.get("price"));
+    const quantity = Number(data.get("quantity"));
+
+    if (!name || price < 0 || quantity < 0 ||
+        !Number.isFinite(price) || !Number.isFinite(quantity)) {
+      alert(t("required")); return;
+    }
+
+    db.products.push({name,price,quantity});
+    saveDB();
+    render("products");
+  });
+
+  const customerForm = content.querySelector("#customerForm");
+  if (customerForm) customerForm.addEventListener("submit",event => {
+    event.preventDefault();
+    const data = new FormData(customerForm);
+    const name = String(data.get("name") || "").trim();
+    const phone = String(data.get("phone") || "").trim();
+    const debt = Number(data.get("debt") || 0);
+
+    if (!name || !Number.isFinite(debt) || debt < 0) {
+      alert(t("required")); return;
+    }
+
+    db.customers.push({name,phone,debt});
+    saveDB();
+    render("customers");
+  });
+
+  content.querySelectorAll("[data-delete-product]").forEach(button => {
+    button.addEventListener("click",() => {
+      if (!confirm(t("deleteConfirm"))) return;
+      db.products.splice(Number(button.dataset.deleteProduct),1);
+      saveDB(); render("products");
+    });
+  });
+
+  content.querySelectorAll("[data-delete-customer]").forEach(button => {
+    button.addEventListener("click",() => {
+      if (!confirm(t("deleteConfirm"))) return;
+      db.customers.splice(Number(button.dataset.deleteCustomer),1);
+      saveDB(); render("customers");
+    });
+  });
+
+  const langSelect = content.querySelector("#settingsLanguage");
+  if (langSelect) langSelect.addEventListener("change",event => {
+    language = event.target.value;
+    localStorage.setItem("biz_language",language);
+    document.getElementById("language").value = language;
+    updateNavigation(); render("settings");
+  });
+
+  const currencySelect = content.querySelector("#settingsCurrency");
+  if (currencySelect) currencySelect.addEventListener("change",event => {
+    currency = event.target.value;
+    localStorage.setItem("biz_currency",currency);
+    document.getElementById("currency").value = currency;
+    render("settings");
+  });
+
+  const resetButton = content.querySelector("#resetData");
+  if (resetButton) resetButton.addEventListener("click",() => {
+    if (!confirm(t("confirmReset"))) return;
+    db = {transactions:[],products:[],customers:[]};
+    saveDB(); render("settings");
+  });
+
+  const exportButton = content.querySelector("#exportData");
+  if (exportButton) exportButton.addEventListener("click",() => {
+    const file = new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+    const url = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "bizmeter-sauvegarde.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+/* DÉMARRAGE */
+updateNavigation();
+render("home");
+</script>
+</body>
+</html>
